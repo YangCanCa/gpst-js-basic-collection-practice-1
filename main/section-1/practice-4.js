@@ -1,6 +1,6 @@
 'use strict';
 
-function includes(collection, ch) {
+/*function includes(collection, ch) {
     for (let item of collection) {
         if (item === ch) {
             return true;
@@ -19,3 +19,17 @@ module.exports = function collectSameElements(collectionA, objectB) {
     }
     return result;
 }
+*/
+module.exports = function collectSameElements(collectionA, objectB) {
+    const arr = [];
+    collectionA.forEach((item) => {
+        arr.push(item.key);
+    })
+    let result = [];
+    arr.forEach((ele) => {
+        if(objectB.value.includes(ele)){
+            result.push(ele);
+        }
+    })
+    return result;   
+}    

@@ -1,6 +1,8 @@
+
+
 'use strict';
 
-function find(collection, ch) {
+/*function find(collection, ch) {
     for (let item of collection) {
         if (item.key === ch) {
             return item;
@@ -45,8 +47,34 @@ function discount(collection, promotionItems) {
     }
     return result;
 }
+*/
+function countSameElements(collection) {
+    let result = [];
+    collection.forEach((item) =>{
+        if (result.some((ele) => ele.key === item)) {
+            result.find((ele) => ele.key === item).count++;
+        } else {
+            result.push({ key: item, count: 1 });
+        }
+    })
+    return result;
+}    
+
+function discount (collectionA, objectB) {
+    let result = JSON.parse(JSON.stringify(collectionA));
+    let valueB = objectB.value;
+
+    result.forEach((item) => {
+        if(valueB.includes(item.key)){
+            item.count-=parseInt(item.count/3);
+        }
+    })
+    return result;
+}
 
 module.exports = function createUpdatedCollection(collectionA, objectB) {
-    let summarized = summarize(collectionA);
-    return discount(summarized, objectB.value);
+    let collectionC= countSameElements(collectionA);
+    return discount(collectionC, objectB);
 }
+
+    

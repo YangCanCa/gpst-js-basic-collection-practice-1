@@ -1,6 +1,6 @@
 'use strict';
 
-function find(collection, ch) {
+/*function find(collection, ch) {
     for (let item of collection) {
         if (item.key === ch) {
             return item;
@@ -75,3 +75,43 @@ module.exports = function createUpdatedCollection(collectionA, objectB) {
     let summarizedArray = summarize(expandedArray);
     return discount(summarizedArray, objectB.value);
 }
+*/
+function countSameElements(collection) {
+    var result = [];
+    let ele='';
+    let num=0;
+    collection.forEach((item) => {
+        if(item.includes('-')){
+            ele = item.split('-')[0];
+            num = parseInt(item.split('-')[1]);}
+        else {
+            ele =item;
+            num=1;}
+        findAndpush(result,ele,num);
+    })
+    return result;
+    function findAndpush(result,item,num){
+        if(result.some((ele) => ele.key === item)){
+            result.find((ele) => ele.key === item).count+=num
+        }else{
+            result.push({key:item,count:num});
+        }
+    
+    return result;
+}
+}
+function discount (collectionA, objectB) {
+    let result = JSON.parse(JSON.stringify(collectionA));
+    let valueB = objectB.value;
+    result.forEach((item) => {
+        if(valueB.includes(item.key)){
+            item.count-=parseInt(item.count/3);
+        }
+    })
+    return result;
+}
+module.exports = function createUpdatedCollection(collectionA, objectB) {
+    let collectionC= countSameElements(collectionA);
+    return discount(collectionC, objectB);
+}
+
